@@ -1,7 +1,8 @@
-import React, { Profiler, useMemo } from "react";
+
+import React, { useCallback } from "react";
 import { useState } from "react";
 import "../styles/App.css";
-import primeNumber from "../function";
+import calculateAllPrimes from "../function";
 
 const App = () => {
   return <OptimizeTheOperation />;
@@ -10,7 +11,8 @@ const App = () => {
 const OptimizeTheOperation = ({ onClick }) => {
   const [number, setNumber] = useState(10000);
 
-  const prime = primeNumber(number);
+  // useCallback hook to only recalculate the prime numbers when the number changes
+  const prime = useCallback(() => calculateAllPrimes(number), [number]);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -24,14 +26,14 @@ const OptimizeTheOperation = ({ onClick }) => {
       <form onSubmit={submitHandler}>
         <input id="num" />
         <button id="submit" type="submit">
-          Click me 
+          Click me
         </button>
       </form>
       <br />
       <div className="width">
         Result of expensive operation:
         <ul>
-          {prime.map((item, index) => (
+          {prime().map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
