@@ -1,4 +1,3 @@
-
 const calculateAllPrimes = (number) => {
   let primes = new Array(number + 1).fill(true);
   primes[0] = false;
